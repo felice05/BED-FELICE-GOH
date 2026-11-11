@@ -1,3 +1,16 @@
+require('dotenv').config();
+
+const dbConfig = {
+    server: process.env.DB_SERVER,
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    options: { trustServerCertificate: true }
+};
+
+
+
+
 const express = require('express');
 const sql = require('mssql');
 const app = express();
@@ -5,13 +18,23 @@ const app = express();
 app.get('/', (req, res) => {
     res.send('Welcome to the Book Category API');
 });
+app.get('/categories', (req, res) => {
+res.json([
+{ id: 1, name: 'Fiction' },
+{ id: 2, name: 'Non-Fiction' },
+{ id: 3, name: 'Biography' }
+]);
+});
+app.get('/about', (req, res) => {
+    res.send('Hello, I am a student studying information technology.');
+});
 app.get('/db-test', async (req, res) => {
 try {
 const pool = await sql.connect({
 server: 'localhost',
 port: 1433,
 database: 'NPBookstore',
-user: 'npbookstore user',
+user: 'npbookstore_user',
 password: 'Felicee@2008',
 options: { trustServerCertificate: true },
 });
